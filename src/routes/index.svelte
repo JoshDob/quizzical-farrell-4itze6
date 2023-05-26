@@ -1,14 +1,17 @@
-<script>
-  import Navbar from '$lib/Navbar.svelte';
-  import Carousel from '$lib/Carousel.svelte';
+<!-- src/routes/index.svelte -->
+<script context="module">
+  import { images } from '$lib/images.js';
 
-  let images = [
-    { id: 1, url: '/static/images/image1.jpg', alt: 'Image 1' },
-    { id: 2, url: '/static/images/image2.jpg', alt: 'Image 2' },
-    // Add more images as needed...
-  ];
+  export async function load() {
+    const carouselImages = await images.getCarouselImages();
+    return { props: { carouselImages } };
+  }
 </script>
 
-<Navbar />
+<script>
+  import Carousel from '$lib/components/Carousel.svelte';
 
-<Carousel {images} />
+  export let carouselImages = [];
+</script>
+
+<Carousel {carouselImages} />

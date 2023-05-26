@@ -1,26 +1,33 @@
+<!-- src/routes/category/[id].svelte -->
 <script context="module">
-  import { fetchImage } from '$lib/api.js';
+  import { images } from '$lib/images.js';
 
   export async function load({ params }) {
-    const { category, id } = params;
-
-    // Fetch the image...
-    const image = await fetchImage(category, id);
-
-    return { props: { image } };
+    const categoryImages = await images.getCategoryImages(params.id);
+    return { props: { categoryImages } };
   }
 </script>
 
 <script>
-  import Navbar from '$lib/Navbar.svelte';
-
-  export let image;
+  export let categoryImages = [];
 </script>
 
-<Navbar />
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  .grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+</style>
 
-<main>
-  <img src={image.url} alt={image.alt} />
-  <h1>{image.title}</h1>
-  <p>{image.description}</p>
-</main>
+<div class="grid">
+  {#each categoryImages as image}
+    <img src={image} alt="Category image" />
+  {/each}
+</div>

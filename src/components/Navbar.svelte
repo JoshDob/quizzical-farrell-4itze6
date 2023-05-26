@@ -1,34 +1,27 @@
+<!-- src/lib/components/Navbar.svelte -->
 <script>
-  // Define the navigation links
-  const links = [
-    { name: 'Home', href: '/' },
-    { name: 'Gallery', href: '/gallery' },
-    // Add more links as needed...
-  ];
+  import { Link } from 'svelte-routing';
 </script>
 
 <style>
-  nav {
+  .navbar {
     display: flex;
-    justify-content: space-around;
-    padding: 1em;
-    background-color: #f8f8f8;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8f9fa;
   }
-
-  a {
+  .navbar a {
+    margin-right: 20px;
     color: #333;
     text-decoration: none;
   }
-
-  a:hover {
-    color: #666;
+  .navbar a:last-child {
+    margin-right: 0;
   }
 </style>
 
-<nav>
-  <ul>
-    {#each links as link}
-      <li><a href={link.href}>{link.name}</a></li>
-    {/each}
-  </ul>
-</nav>
+<div class="navbar">
+  <Link to="/">Home</Link>
+  <Link to="/about">About</Link>
+  <Link to="/contact">Contact</Link>
+</div>

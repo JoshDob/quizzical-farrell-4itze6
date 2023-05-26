@@ -1,38 +1,35 @@
+<!-- src/components/ImageCarousel.svelte -->
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, reactive } from 'svelte';
+  export let carouselImages = [];
 
-  export let images = [];
-
-  let currentIndex = 0;
+  let state = reactive({
+    currentIndex: 0,
+  });
 
   onMount(() => {
     const interval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length;
+      state.currentIndex = (state.currentIndex + 1) % carouselImages.length;
     }, 3000);
-
     return () => clearInterval(interval);
   });
 </script>
 
 <style>
-  #carousel {
-    width: 100%;
-    height: 50vh;
-    overflow: hidden;
-    position: relative;
+  .carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    background-color: #f8f9fa;
   }
-
-  #carousel img {
+  .carousel img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: absolute;
-    transition: opacity 1s;
   }
 </style>
 
-<div id="carousel">
-  {#each images as image, i (image.id)}
-    <img src={image.url} alt={image.alt} style="opacity: {i === currentIndex ? 1 : 0}">
-  {/each}
+<div class="carousel">
+  <img src={carouselImages[state.currentIndex]} alt="Carousel image" />
 </div>
